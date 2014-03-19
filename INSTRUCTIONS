@@ -1,0 +1,94 @@
+
+Steps...
+
+Make sure you can run an RMI service on your machine.
+Make sure you have a directory named "save" in the directory with the scripts.
+
+Run ./compile.sh to get everything compiled.
+
+Start 3 terminals all in the wdjet directory.
+
+Terminal 1
+Run ./rmiregistry.sh 
+
+Terminal 2
+Run ./rmi.sh
+
+Terminal 3
+Run ./run.sh
+
+At the initialization window, choose "localhost" as your wdjet server.
+If your RMI service is set up appropriately, this should go without problems.
+
+You should now have a big GUI window with 8 buttons across the bottom.
+
+Step 1 is to start a new session.
+Hit the "new" button.
+This now talks to the HLDBM, connects to sunfire1 and lets you choose your SpAss.
+NCBI b36 is particularly nice. All loci in this session refer to this SpAss.
+Give the session a name and description if you like.
+Names are particularly useful for saving and loading sessions.
+Hit accept.
+You now have a working session.
+
+Step 2 is to get some loci.
+Hit the "import" button.
+You can import GTF, GFF, and BED. GTF is particularly nice since loci have names.
+For commodus, you would want one query set and one or more control sets -- depending on whether the controls were population or sampling.
+For genes off a chip, the population approach is best. One set of query loci and another set that includes the whole chip population.
+For sampling based applications, the more control sets you have, the more acute the statistical conclusions you'll derive.
+For each locus set you import, you can select the item that pops up in the view, and hit the magnifying glass to see details.
+
+Step 3 [optional] is to save.
+Click save. 
+If you have a save directory, the session will be dumped into a file there.
+Otherwise it will spew hate and vinegar.
+You can load this session anytime you want with the load button.
+It searches the saved directory for saved sessions and lets you pick one.
+
+Now some analyses.
+
+For Commodus:
+Pick your target set.
+Then hit the Commodus button.
+You can select the tracks you want to interrogate against using the checkboxes.
+You must set a minSupport as a Percentage or as a Fixed number of loci.
+Choose whether you'd like No Controls, Population, or Sampling for controls.
+In Population mode, you'll be able to pick ONE set representing the population your targets were picked from.
+In Sampling mode, you'll be able to pick MULTIPLE sets that sample the same genomic space as your loci.
+If you've set some controls, you must set a minConfidence. This must be a "maximal p-value" between 0 and 1. All words with a p-value less than minConfidence (i.e. more confident than minConfidence) will be returned.
+Hit accept. 
+It'll take a few minutes for the loci to be retreived, intersected, and Commoditized.
+You'll see a table of results (assuming you don't encounter any errors).
+You can browse this and close this.
+In the main session graph you should now see an arrow coming from your query set and into a new query.commodus object.
+Clicking the query.commodus object and then clicking the magnifying glass will show you the results again.
+
+
+For Connexus:
+Pick your target set.
+Then hit the Connexus button.
+You type in the identifying annotation you want to use for your query loci.
+If you leave it blank or enter some garbage, this reverts to the Locus ID -- this is not so nice if you loaded GFF (for instance) since all your loci would be named GFFLocus.
+Next, pick the tracks you want to interrogate against using those checkboxes.
+When you highlight a particular track, you can select the particular identifying annotation you want to use for that track. Same rules as for the target track if unknown.
+Hit accept.
+It'll take a few minutes for the loci to be retreived, intersected, and Connexted.
+You'll see a graph of connections between target track loci and query loci merged into nodes based on identifying annotation terms. If you used gene-symbols for instance, query loci from a chip could be merged with target loci from a binding-site track.
+You can zoom and pan in transforming mode. You can select loci and change the way the graph looks in picking mode. 
+You can filter the graph to include only nodes with particular names using the filtering box on the right [you may have to drag the panel wider to see the buttons].
+You can filter the graph to only include the largest connected component using the trim button.
+You will always see a small preview of the unfiltered graph in the top right graph box.
+You can close this view by using the X in the top right.
+You can get back to it by selecting the new query.connexus item in your session and clicking the magnifying glass.
+
+
+If you care about the results you got, hit save.
+
+If anything crashed that wasn't part of the GUI, look in wdjet.err for crash reports from the wdjet server, in commodus.err for debug output there, and connexus.err for what little may be there to help. Report it.
+
+
+Make it better, make it fun.
+
+
+Ajish George April 09, 2008.

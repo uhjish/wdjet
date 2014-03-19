@@ -1,0 +1,65 @@
+<project name="Wdjet" basedir="." default="main">
+
+    <property name="src.dir"     value="src"/>
+
+    <property name="build.dir"   value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="jar.dir"     value="${build.dir}/jar"/>
+
+    <property name="main-class"  value="org.omelogic.hocuslocus.wdjet.client.Wdjet"/>
+
+	<path id="build.classpath">
+		<fileset dir="${basedir}/">
+			<include name="lib/*.jar"/>
+		</fileset>
+	</path>
+
+	<pathconvert property="test.project.manifest.classpath" pathsep=" ">
+		<path refid="build.classpath"/>
+			<mapper>
+				<chainedmapper>
+					<flattenmapper/>
+					<globmapper from="*.jar" to="lib/*.jar"/>
+				</chainedmapper>
+			</mapper>
+	</pathconvert>
+<!--
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}">
+	    <classpath>
+		<fileset dir="${basedir}/">
+			<include name="lib/*.jar"/>
+		</fileset>
+            </classpath>
+         </javac>
+    </target>
+-->
+    <target name="jar" >
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+	    <indexjars>
+		<fileset dir="./lib/*.jar"/>
+	    </indexjars>
+
+            <manifest>
+                <attribute name="Main-Class" value="${main-class}"/>
+		<attribute name="Class-Path" value="${test.project.manifest.classpath}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" depends="jar">
+        <java jar="${jar.dir}/${ant.project.name}.jar" fork="true"/>
+    </target>
+
+    <target name="clean-build" depends="jar"/>
+
+    <target name="main" depends="run"/>
+
+</project>
+
